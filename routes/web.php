@@ -10,5 +10,7 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 Route::middleware(['auth'])->group(function (){
     Route::get('/painel', [AuthController::class,'painel'])->name('painel');
+    Route::get('/painel/funcionario', [AuthController::class,'funcionario'])->name('funcionario');
+    Route::get('/inventario', [AuthController::class,''])->name('inventario');
 });
 

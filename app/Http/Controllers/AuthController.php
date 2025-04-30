@@ -34,6 +34,14 @@ class AuthController extends Controller
         return view('pages.painel');
     }
 
+    public function funcionario () {
+        return view('pages.funcionario');
+    }
+
+    public function inventario () {
+        return view('pages.inventario');
+    }
+
     public function showRegister() {
         return view('auth.register');
     }
