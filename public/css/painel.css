@@ -2,54 +2,22 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    overflow: hidden; /* Impede que a página inteira role */
 }
 
 body {
     font-family: 'Poppins', sans-serif;
-    background: #f8fafc;
-    display: flex;
+    background: #f8fbfc;
     min-height: 100vh;
     height: 100%;
+    overflow: hidden; /* Impede que a página inteira role */
 }
 
 .container {
     display: flex;
     height: 100vh;
-}
-
-.sidebar {
-    width: 240px;
-    background: linear-gradient(to bottom, #1f2937, #111827);
-    color: white;
-    padding: 30px 20px;
-}
-
-.sidebar h1 {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 40px;
-}
-
-.sidebar a {
-    text-decoration: none;
-    color: white;
-}
-
-.icon-info {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-    padding: 15px 18px;
-}
-
-.icon-info.active {
-    background: rgba(42, 51, 65, 0.9);
-    box-shadow: 0 4px 15px rgba(27, 37, 53, 0.9);
-    border-radius: 10px;
-}
-
-.icon-info img {
-    width: 20px;
-    height: 20px;
-    margin-right: 10px;
+    width: 100%;
+    background: linear-gradient(to bottom, #1f2937, #111827); /* mesmo gradiente do .sidebar */
+    overflow: hidden;
+    position: relative;
 }

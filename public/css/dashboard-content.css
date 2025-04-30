@@ -1,0 +1,125 @@
+.dashboard-content {
+    background-color: #f0f0f0;
+    padding: 25px;
+    width: 100%;
+    flex: 1;
+    border-radius: 30px;
+    display: flex; /* Flexbox para o conteúdo */
+    flex-direction: column; /* Organiza o conteúdo de forma vertical */
+    overflow-y: auto; /* Habilita a rolagem vertical */
+    position: relative;
+    width: calc(100% - 250px); /* Garante que o conteúdo ocupe o restante da tela, após a barra
+ lateral */
+    margin: 20px;
+}
+
+.dashboard-header {
+    font-size: 15px;
+    color: rgb(53, 52, 52);
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    position: sticky;
+    z-index: 2; /* Para garantir que o cabeçalho fique acima do conteúdo */
+
+}
+
+
+.perfil-btn {
+    background: linear-gradient(to bottom, #1f2937, #111827);
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin-left: 10px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.perfil-btn a {
+    cursor: pointer;
+    color: white;
+    text-decoration: none;
+    align-items: center;
+    gap: 8px;
+}
+
+.perfil-btn img {
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    background: #ffffff;
+    border-radius: 15px;
+    padding: 20px;
+    justify-content: space-between;
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.card {
+    display: flex;
+    background: #3188c6;
+    border-radius: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 200px;
+    height: 150px;
+    padding-left: 4px;
+    padding-right: 4px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: white;
+    font-size: 20px;
+    text-align: center;
+    gap: 12px;
+}
+
+.variable {
+    color: white;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.info {
+    color: #3c4c56;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.charts {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background: #ffffff;
+    border-radius: 15px;
+    padding-left: 80px;
+    padding-right: 80px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    width: 100%; /* Garante que a div .charts ocupe toda a largura */
+    max-height: 700px; /* Limita a altura da div .charts */
+    position: relative;
+    overflow: hidden; /* Garante que nada ultrapasse os limites da div */
+}
+
+.chart {
+    width: 100%;
+    height: 450px; /* Defina uma altura específica para garantir o espaço para o gráfico */
+    position: relative;
+    margin-top: 0;
+}
+
+.chart-canvas {
+    width: 100% !important; /* Garante que o canvas ocupe toda a largura da div .chart */
+    height: 100% !important; /* Garante que o canvas ocupe toda a altura da div .chart */
+    display: block;
+}
