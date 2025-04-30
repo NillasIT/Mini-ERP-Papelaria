@@ -30,6 +30,11 @@ class AuthController extends Controller
         ]);
     }
 
+    public function logout(Request $request) {
+        $request->session()->regenerate();
+        return redirect()->route('admin.login');
+    }
+
     public function painel () {
         return view('pages.painel');
     }

@@ -2,7 +2,6 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    overflow: hidden; /* Impede que a página inteira role */
 }
 
 body {
@@ -10,7 +9,6 @@ body {
     background: #f8fbfc;
     min-height: 100vh;
     height: 100%;
-    overflow: hidden; /* Impede que a página inteira role */
 }
 
 .container {

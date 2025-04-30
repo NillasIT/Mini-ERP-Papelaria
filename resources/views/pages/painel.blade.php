@@ -12,57 +12,7 @@
     <div class="container">
         @include('components.sidebar')
 
-        <div class="dashboard-content">
-            <div class="dashboard-header">
-                <h1>Bem-vindo, {{ auth()->user()->name }}!</h1>
-
-                <div class="perfil-btn">
-                    <a href="{{ route('profile') }}">
-                        <img src="{{ asset('assets/icons/profile.png') }}" alt="dasboard">
-                        Ver perfil
-                    </a>
-                </div>
-            </div>
-
-            <p class="info">Analise rápida de dados</p>
-
-            <div class="dashboard-content-body">
-                <div class="cards">
-                    <div class="card">
-                        <img src="{{ asset('assets/icons/inventario.png') }}" alt="">
-                        <p>Produtos</p>
-                        <p class="variable">25</p>
-                    </div>
-
-                    <div class="card">
-                        <img src="{{ asset('assets/icons/vendas.png') }}" alt="">
-                        <p>Vendas hoje</p>
-                        <p class="variable">15 vendas</p>
-                    </div>
-
-                    <div class="card">
-                        <img src="{{ asset('assets/icons/inventario.png') }}" alt="">
-                        <p>Receita hoje</p>
-                        <p class="variable">2.500,00MT</p>
-                    </div>
-
-                    <div class="card">
-                        <img src="{{ asset('assets/icons/user.png') }}" alt="">
-                        <p>Funcionários</p>
-                        <p class="variable">5</p>
-                    </div>
-                </div>
-
-                <p class="info">Resumo de vendas</p>
-                <div class="charts">
-                    <div class="chart">
-                        <!-- Canvas onde o gráfico será desenhado -->
-                        <canvas id="salesChart" class="chart-canvas"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+        @include('components.dasboard-content')
     </div>
 @endsection
 
@@ -100,5 +50,17 @@
                 }
             }
         });
+    </script>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+
+    <!-- JS do DataTables -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#minhaTabela').DataTable();
+        })
     </script>
 @endsection

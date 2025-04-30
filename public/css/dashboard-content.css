@@ -13,6 +13,11 @@
     margin: 20px;
 }
 
+.dashboard-content-body {
+    overflow-y: auto;
+    padding-right: 10px; /* evita que a rolagem sobreponha o conteúdo */
+}
+
 .dashboard-header {
     font-size: 15px;
     color: rgb(53, 52, 52);
@@ -21,13 +26,16 @@
     margin-bottom: 40px;
     position: sticky;
     z-index: 2; /* Para garantir que o cabeçalho fique acima do conteúdo */
+}
 
+.dashboard-header h1 {
+    color: #111827;
 }
 
 
 .perfil-btn {
     background: linear-gradient(to bottom, #1f2937, #111827);
-    border-radius: 5px;
+    border-radius: 18px;
     padding: 10px 20px;
     margin-left: 10px;
     border: none;
@@ -123,3 +131,50 @@
     height: 100% !important; /* Garante que o canvas ocupe toda a altura da div .chart */
     display: block;
 }
+
+.table-data {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    background: #ffffff;
+    border-radius: 15px;
+    padding: 20px;
+    justify-content: space-between;
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    overflow: hidden;
+    margin-left: 50px;
+    margin-right: 50px;
+  }
+
+  thead {
+    background-color: #ffffff;
+    align-items: center;
+    justify-content: center;
+  }
+
+  th, td {
+    text-align: left;
+    padding: 14px 18px;
+    font-size: 16px;
+  }
+
+  th {
+    font-weight: 600;
+    color: #333;
+  }
+
+  tr:not(:last-child) {
+    border-bottom: 1px solid #e6e6e6;
+    border-radius: 12px;
+  }
+
+  tbody tr:hover {
+    background-color: #f9f9f9;
+    transition: background 0.3s ease;
+  }

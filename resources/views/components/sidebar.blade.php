@@ -6,7 +6,7 @@
             Dashboard
         </a>
 
-        <a href="{{ route('funcionario') }}" class="icon-info {{ request()->is('funcionarios') ?  'active' : '' }}">
+        <a href="{{ route('funcionario') }}" class="icon-info {{ request()->is('funcionario') ?  'active' : '' }}">
             <img src="{{ asset('assets/icons/user.png') }}" alt="dasboard">
             Funcionários
         </a>
@@ -31,9 +31,12 @@
             Relatórios
         </a>
 
-        <a href="#" class="icon-info {{ request()->is('logout') ?  'active' : '' }}">
-            <img src="{{ asset('assets/icons/exit.png') }}" alt="dasboard">
-            Sair
-        </a>
+        <form action="{{ route('logout') }}" method="POST">
+            @csrf
+            <a href="{{ route('') }}" class="icon-info {{ request()->is('logout') ?  'active' : '' }}">
+                <img src="{{ asset('assets/icons/exit.png') }}" alt="dasboard">
+                Sair
+            </a>
+        </form>
     </div>
 </div>
