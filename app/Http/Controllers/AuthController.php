@@ -30,6 +30,22 @@ class AuthController extends Controller
         ]);
     }
 
+    public function addFuncionario(Request $request) {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:8|confirmed',
+            'phone' => 'required|string',
+            'role' => 'Funcionário',
+        ]);
+
+        $user = User::create($validated);
+        return redirect()->route('funcionario')->with('success', 'Funcionário registado com sucesso!');
+    }
+    public function showFuncionario() {
+        return view('auth.register');
+    }
+
     public function logout(Request $request) {
         $request->session()->regenerate();
         return redirect()->route('admin.login');
@@ -47,14 +63,11 @@ class AuthController extends Controller
         return view('pages.inventario');
     }
 
-    public function showRegister() {
-        return view('auth.register');
+    public function profile () {
+        return view('pages.profile');
     }
 
-    public function employeeRegister(Request $request) {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-
-        ]);
+    public function showRegister() {
+        return view('auth.register');
     }
 }

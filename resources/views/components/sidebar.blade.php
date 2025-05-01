@@ -33,7 +33,7 @@
 
         <form action="{{ route('logout') }}" method="POST">
             @csrf
-            <a href="{{ route('') }}" class="icon-info {{ request()->is('logout') ?  'active' : '' }}">
+            <a href="#" class="icon-info {{ request()->is('logout') ?  'active' : '' }}" onclick="event.preventDefault(); this.closest('form').submit();">
                 <img src="{{ asset('assets/icons/exit.png') }}" alt="dasboard">
                 Sair
             </a>

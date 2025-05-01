@@ -11,7 +11,6 @@
 @section('content')
     <div class="container">
         @include('components.sidebar')
-
         @include('components.dasboard-content')
     </div>
 @endsection

@@ -27,8 +27,15 @@
             <div class="funcionario-content-body">
                 <h1>Funcionários</h1>
                 <p class="info">Gerencie os funcionários da Repografia</p>
+                <div class="funcionario-btn">
+                        <a href="{{ route('show.register') }}" class="btn-add">
+                            <img src="{{ asset('assets/icons/add.png') }}" alt="">Adicionar
+                        </a>
+                </div>
 
-                div.
+                <div class="table-funcionarios">
+                    
+                </div>
             </div>
         </div>
     </div>

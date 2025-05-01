@@ -11,11 +11,15 @@
     width: calc(100% - 250px); /* Garante que o conteúdo ocupe o restante da tela, após a barra
  lateral */
     margin: 20px;
+    
 }
 
 .funcionario-content-body {
     overflow-y: auto;
     padding-right: 10px; /* evita que a rolagem sobreponha o conteúdo */
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Garante que a altura seja o suficiente para preencher a tela */
 }
 
 .funcionario-header {
@@ -32,7 +36,7 @@
 
 .perfil-btn {
     background: linear-gradient(to bottom, #1f2937, #111827);
-    border-radius: 5px;
+    border-radius: 18px;
     padding: 10px 20px;
     margin-left: 10px;
     border: none;
@@ -52,4 +56,52 @@
 .perfil-btn img {
     vertical-align: middle;
     margin-right: 10px;
+}
+
+.table-funcionarios {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    background: #ffffff;
+    border-radius: 15px;
+    padding: 20px;
+    justify-content: space-between;
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.funcionario-btn {
+    display: flex;
+    justify-content: flex-end;
+}
+.btn-add {
+    background-color: rgb(6, 189, 6);
+    border-radius: 18px;
+    padding: 10px 20px;
+    margin-left: 10px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 40px;
+}
+
+.btn-add img {
+    vertical-align: middle;
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+}
+
+.funcionario-btn a {
+    cursor: pointer;
+    color: white;
+    text-decoration: none;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+}
+
+.btn-add:hover {
+    color: rgb(3, 87, 3);
 }
