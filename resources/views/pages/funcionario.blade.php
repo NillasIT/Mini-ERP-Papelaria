@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="{{ asset('css/painel.css') }}">
     <link rel="stylesheet" href="{{ asset('css/sidebar.css') }}">
     <link rel="stylesheet" href="{{ asset('css/funcionario.css') }}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
 @endsection
 
 @section('content')
@@ -28,15 +30,220 @@
                 <h1>Funcionários</h1>
                 <p class="info">Gerencie os funcionários da Repografia</p>
                 <div class="funcionario-btn">
-                        <a href="{{ route('show.register') }}" class="btn-add">
-                            <img src="{{ asset('assets/icons/add.png') }}" alt="">Adicionar
-                        </a>
+                    <a href="#" class="btn-add" onclick="abrirModal()">
+                        <img src="{{ asset('assets/icons/add.png') }}" alt="">Adicionar
+                    </a>
                 </div>
 
                 <div class="table-funcionarios">
-                    
+                    <table id="tabela-funcionarios" class="display nowrap" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Email</th>
+                                <th>Telefone</th>
+                                <th>Função</th>
+                                <th>Inicio de contrato</th>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
             </div>
+
+
         </div>
     </div>
+    @include('components.modal')
+    @include('components.edit_modal')
+@endsection
+
+@section('scripts')
+    <script>
+        function abrirModal() {
+            document.getElementById('modal-funcionario').style.display = 'flex';
+        }
+
+        function fecharModal() {
+            document.getElementById('modal-funcionario').style.display = 'none';
+        }
+
+        // Fechar ao clicar fora do conteúdo
+        window.onclick = function(event) {
+            const modal = document.getElementById('modal-funcionario');
+            if (event.target === modal) {
+                fecharModal();
+            }
+        }
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            const table = $('#tabela-funcionarios').DataTable({
+                dom: 'Bfrtip',
+                buttons: [{
+                    extend: 'pdfHtml5',
+                    text: 'Exportar PDF',
+                    title: 'Relatório de Funcionários',
+                    className: 'btn-export-pdf',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3] // ignora a coluna de ações
+                    }
+                }],
+                initComplete: function() {
+                    this.api().columns(3).every(function() {
+                        const column = this;
+                        const select = $(
+                                '<select><option value="">Filtrar por Função</option></select>')
+                            .appendTo($(column.header()).empty())
+                            .on('change', function() {
+                                const val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                column.search(val ? '^' + val + '$' : '', true, false)
+                                    .draw();
+                            });
+
+                        column.data().unique().sort().each(function(d) {
+                            select.append('<option value="' + d + '">' + d +
+                                '</option>');
+                        });
+                    });
+                },
+                scrollY: '400px', // A altura da área rolável da tabela (ajuste conforme necessário)
+                scrollCollapse: true, // A tabela irá ajustar sua altura quando o conteúdo for menor que a altura especificada
+
+                responsive: true,
+                language: {
+                    search: "Pesquisar:",
+                    lengthMenu: "Mostrar _MENU_ registros",
+                    info: "Mostrando _START_ a _END_ de _TOTAL_",
+                    paginate: {
+                        first: "Primeiro",
+                        last: "Último",
+                        next: "Próximo",
+                        previous: "Anterior"
+                    },
+                    zeroRecords: "Nenhum funcionário encontrado"
+                },
+                ajax: {
+                    url: '{{ route('getFuncionarios') }}',
+                    dataSrc: ''
+                },
+                columns: [{
+                        data: 'name'
+                    },
+                    {
+                        data: 'email'
+                    },
+                    {
+                        data: 'phone'
+                    },
+                    {
+                        data: 'role'
+                    },
+                    {
+                        data: null,
+                        className: 'actions',
+                        defaultContent: `
+                    <a href="#" class="btn btn-sm btn-warning btn-edit">Editar</a>
+                    <a href="#" class="btn btn-sm btn-danger btn-delete">Excluir</a>
+                `
+                    }
+                ]
+            });
+
+            // Ação de excluir funcionário
+            $('#tabela-funcionarios').on('click', '.btn-delete', function(e) {
+                e.preventDefault();
+                const rowData = table.row($(this).parents('tr')).data();
+                const id = rowData.id;
+
+                if (confirm('Tem certeza que deseja excluir este funcionário?')) {
+                    $.ajax({
+                        url: `/funcionarios/${id}`,
+                        method: 'DELETE',
+                        data: {
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function(response) {
+                            alert(response.mensagem);
+                            table.ajax.reload(); // Recarrega a tabela após a exclusão
+                        }
+                    });
+                }
+            });
+
+            // Ação de editar funcionário
+            $('#tabela-funcionarios').on('click', '.btn-edit', function(e) {
+                e.preventDefault();
+                const rowData = table.row($(this).parents('tr')).data();
+                const id = rowData.id;
+
+                // Faz uma requisição AJAX para obter os dados do funcionário
+                $.ajax({
+                    url: `/funcionario/${id}`,
+                    method: 'GET',
+                    success: function(response) {
+                        // Preenche os campos do formulário com os dados do funcionário
+                        $('#funcionario-id').val(response.id);
+                        $('#editar-nome').val(response.name);
+                        $('#editar-email').val(response.email);
+                        $('#editar-contacto').val(response.phone);
+                        $('#editar-funcao').val(response.role);
+
+                        // Atualiza a URL do formulário para a rota correta
+                        $('#form-editar-funcionario').attr('action', '/funcionario/' + id);
+
+                        // Exibe a modal de edição
+                        document.getElementById('modal-editar-funcionario').style.display =
+                            'block';
+                        document.getElementById('modal-overlay').style.display = 'block';
+                    }
+                });
+            });
+
+            // Fechar a modal de edição
+            function fecharModalEditar() {
+                document.getElementById('modal-editar-funcionario').style.display = 'none';
+                document.getElementById('modal-overlay').style.display = 'none';
+            }
+
+            // Fechar a modal de edição ao clicar fora da modal (no overlay)
+            window.onclick = function(event) {
+                const modal = document.getElementById('modal-editar-funcionario');
+                const overlay = document.getElementById('modal-overlay');
+                if (event.target === modal || event.target === overlay) {
+                    fecharModalEditar();
+                }
+            };
+
+
+            // Enviar o formulário de edição via AJAX
+            $('#form-editar-funcionario').on('submit', function(e) {
+                e.preventDefault();
+                const formData = $(this).serialize(); // Coleta os dados do formulário
+
+                // Envia os dados do formulário via AJAX
+                $.ajax({
+                    url: $(this).attr('action'),
+                    method: 'PUT',
+                    data: formData,
+                    success: function(response) {
+                        alert(response.mensagem);
+                        table.ajax.reload(); // Recarrega a tabela após a edição
+                        fecharModalEditar(); // Fecha a modal
+                    },
+                    error: function(error) {
+                        alert('Erro ao atualizar os dados!');
+                    }
+                });
+            });
+        });
+    </script>
 @endsection

@@ -25,7 +25,7 @@
                 </div>
             </div>
 
-            <div class="funcionario-content-body">
+            <div class="register-content-body">
                 <div class="register-container">
                     <div class="register-header">
                         <h2>Registrar Funcionário</h2>
@@ -56,6 +56,10 @@
 
                         <div class="register-field">
                             <input class="register-input" type="text" name="phone" placeholder="Telefone" value="{{ old('phone') }}" required>
+                        </div>
+
+                        <div class="register-field">
+                            <input class="register-input" type="text" name="role" placeholder="Função" value="{{ old('role') }}" required>
                         </div>
 
                         <div class="register-field">

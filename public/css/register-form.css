@@ -1,3 +1,12 @@
+.register-content-body {
+    display: flex;
+    overflow-y: auto;
+    padding-right: 10px; /* evita que a rolagem sobreponha o conteúdo */
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+
 .register-container {
   background-color: #fff;
   border-radius: 20px;

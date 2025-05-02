@@ -36,17 +36,52 @@ class AuthController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8|confirmed',
             'phone' => 'required|string',
-            'role' => 'Funcionário',
+            'role' => 'required|string',
         ]);
 
         $user = User::create($validated);
         return redirect()->route('funcionario')->with('success', 'Funcionário registado com sucesso!');
     }
+
+    public function getFuncionarios() {
+        $funcionarios = User::all();
+        return response()->json($funcionarios);
+    }
+
     public function showFuncionario() {
         return view('auth.register');
     }
 
+    public function editFuncionario($id) {
+        $funcionarios = User::findOrFail($id);
+        return response()->json($funcionarios);
+    }
+
+    public function updateFuncionario(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $id,
+            'phone' => 'required|string',
+            'role' => 'required|string',
+            'password' => 'nullable|string|min:8|confirmed',
+        ]);
+
+        $funcionario = User::findOrFail($id);
+        $funcionario->update($validated);
+
+        return response()->json(['message' => 'Funcionário atualizado com sucesso!']);
+    }
+
+
+    public function deleteFuncionario($id) {
+        User::destroy($id);
+        return response()->json(['mensagem' => 'Usuário excluido com sucesso']);
+    }
+
     public function logout(Request $request) {
+        Auth::logout();
+        $request->session()->invalidate();
         $request->session()->regenerate();
         return redirect()->route('admin.login');
     }
