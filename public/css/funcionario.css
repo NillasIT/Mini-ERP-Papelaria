@@ -230,16 +230,15 @@
     /* Ocupa toda a largura disponível */
     border-collapse: collapse;
     /* Remove as linhas duplas entre células */
-    font-family: 'Arial', sans-serif;
+    font-family: 'Poppins', sans-serif !important;
     margin-top: 20px;
     background-color: #fff;
 }
 
 #tabela-funcionarios_wrapper {
     width: 100%;
-    /* Garante que o wrapper ocupe 100% da largura */
     height: 100%;
-    /* Garante que o wrapper ocupe 100% da altura */
+    font-family: 'Poppins', sans-serif !important;
 }
 
 /* Cabeçalho da tabela */
@@ -342,6 +341,7 @@ select:hover {
     margin-right: 10px;
     text-transform: uppercase;
     font-weight: 600;
+    font-family: 'Poppins', sans-serif !important;
 }
 
 /* Estilo para o campo de pesquisa */
@@ -353,6 +353,7 @@ select:hover {
     font-size: 14px;
     border: 1px solid #ddd;
     margin: 10px 0;
+    font-family: 'Poppins', sans-serif !important;
 }
 
 .dataTables_wrapper .dataTables_filter input::placeholder {
@@ -380,4 +381,5 @@ select:hover {
     font-size: 14px;
     font-weight: 600;
     border: none;
+    font-family: 'Poppins', sans-serif !important;
 }

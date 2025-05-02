@@ -1,8 +1,4 @@
-<!-- Overlay -->
-<div id="modal-overlay" class="modal-overlay" style="display: none;"></div>
-
-<!-- Modal de Edição -->
-<div id="modal-editar-funcionario" class="modal" style="display: none;">
+<div id="modal-editar-funcionario" class="modal">
     <div class="register-container">
         <span class="close" onclick="fecharModalEditar()">&times;</span>
 
@@ -10,18 +6,17 @@
             <h2>Modificar dados do Funcionário</h2>
         </div>
 
-        <!-- O formulário agora tem uma ação dinâmica -->
         <form id="form-editar-funcionario" action="#" method="POST" class="register-form">
             @csrf
             @method('PUT')
             <div class="register-field">
-                <input type="text" name="name" id="funcionario-nome" class="register-input" placeholder="Nome" required>
-                <input type="email" name="email" id="funcionario-email" class="register-input" placeholder="Email" required>
-                <input type="text" name="phone" id="funcionario-phone" class="register-input" placeholder="Contacto" required>
-                <input type="text" name="role" id="funcionario-role" class="register-input" placeholder="Função" required>
-
-                <input type="password" name="password" id="funcionario-password" class="register-input" placeholder="Senha">
-                <input type="password" name="password_confirmation" id="funcionario-password_confirmation" class="register-input" placeholder="Confirmar senha">
+                <input type="hidden" name="id" id="funcionario-id">
+                <input type="text" name="name" id="editar-nome" class="register-input" placeholder="Nome" required>
+                <input type="email" name="email" id="editar-email" class="register-input" placeholder="Email" required>
+                <input type="text" name="phone" id="editar-contacto" class="register-input" placeholder="Contacto" required>
+                <input type="text" name="role" id="editar-funcao" class="register-input" placeholder="Função" required>
+                <input type="password" name="password" class="register-input" placeholder="Senha">
+                <input type="password" name="password_confirmation" class="register-input" placeholder="Confirmar senha">
             </div>
 
             <div class="register-submit">

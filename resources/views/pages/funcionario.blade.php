@@ -43,7 +43,7 @@
                                 <th>Email</th>
                                 <th>Telefone</th>
                                 <th>Função</th>
-                                <th>Inicio de contrato</th>
+                                <th></th>
                             </tr>
                         </thead>
                     </table>
@@ -97,6 +97,8 @@
                         columns: [0, 1, 2, 3] // ignora a coluna de ações
                     }
                 }],
+                pageLength: 9,
+                lengthMenu: [5, 10, 25, 50, 100],
                 initComplete: function() {
                     this.api().columns(3).every(function() {
                         const column = this;
@@ -166,14 +168,18 @@
 
                 if (confirm('Tem certeza que deseja excluir este funcionário?')) {
                     $.ajax({
-                        url: `/funcionarios/${id}`,
+                        url: `/funcionario/${id}`, // Corrigido para a rota correta
                         method: 'DELETE',
                         data: {
-                            _token: '{{ csrf_token() }}'
+                            _token: '{{ csrf_token() }}' // Incluindo o token CSRF
                         },
                         success: function(response) {
                             alert(response.mensagem);
                             table.ajax.reload(); // Recarrega a tabela após a exclusão
+                        },
+                        error: function(error) {
+                            alert('Erro ao excluir o funcionário!');
+                            console.error(error);
                         }
                     });
                 }
@@ -185,12 +191,10 @@
                 const rowData = table.row($(this).parents('tr')).data();
                 const id = rowData.id;
 
-                // Faz uma requisição AJAX para obter os dados do funcionário
                 $.ajax({
-                    url: `/funcionario/${id}`,
+                    url: `/funcionario/edit/${id}`, // Rota para buscar os dados do funcionário
                     method: 'GET',
                     success: function(response) {
-                        // Preenche os campos do formulário com os dados do funcionário
                         $('#funcionario-id').val(response.id);
                         $('#editar-nome').val(response.name);
                         $('#editar-email').val(response.email);
@@ -198,12 +202,16 @@
                         $('#editar-funcao').val(response.role);
 
                         // Atualiza a URL do formulário para a rota correta
-                        $('#form-editar-funcionario').attr('action', '/funcionario/' + id);
+                        $('#form-editar-funcionario').attr('action', `/funcionario/${id}`);
 
                         // Exibe a modal de edição
                         document.getElementById('modal-editar-funcionario').style.display =
-                            'block';
+                            'flex';
                         document.getElementById('modal-overlay').style.display = 'block';
+                    },
+                    error: function(error) {
+                        alert('Erro ao buscar os dados do funcionário!');
+                        console.error(error);
                     }
                 });
             });
@@ -212,6 +220,11 @@
             function fecharModalEditar() {
                 document.getElementById('modal-editar-funcionario').style.display = 'none';
                 document.getElementById('modal-overlay').style.display = 'none';
+            }
+
+            function abrirModal() {
+                document.getElementById('modal-editar-funcionario').style.display = 'flex';
+                document.getElementById('modal-overlay').style.display = 'block';
             }
 
             // Fechar a modal de edição ao clicar fora da modal (no overlay)
@@ -244,6 +257,10 @@
                     }
                 });
             });
+
+            // Certifique-se de que os modais estão escondidos no carregamento da página
+            modalAdicionar.style.display = 'none';
+            modalEditar.style.display = 'none';
         });
     </script>
 @endsection

@@ -10,14 +10,20 @@ use App\Models\User;
 
 class AuthController extends Controller
 {
-    public function showLogin() {
+    // ===============================
+    // Login e Logout
+    // ===============================
+
+    public function showLogin()
+    {
         return view('auth.login');
     }
 
-    public function login(Request $request) {
+    public function login(Request $request)
+    {
         $validated = $request->validate([
             'email' => 'required|email',
-            'password'=> 'required|string'
+            'password' => 'required|string'
         ]);
 
         if (Auth::attempt($validated)) {
@@ -30,7 +36,49 @@ class AuthController extends Controller
         ]);
     }
 
-    public function addFuncionario(Request $request) {
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerate();
+        return redirect()->route('admin.login');
+    }
+
+    // ===============================
+    // Painel e Páginas
+    // ===============================
+
+    public function painel()
+    {
+        return view('pages.painel');
+    }
+
+    public function funcionario()
+    {
+        return view('pages.funcionario');
+    }
+
+    public function inventario()
+    {
+        return view('pages.inventario');
+    }
+
+    public function profile()
+    {
+        return view('pages.profile');
+    }
+
+    // ===============================
+    // Funcionários - Visualização e Registro
+    // ===============================
+
+    public function showFuncionario()
+    {
+        return view('auth.register');
+    }
+
+    public function addFuncionario(Request $request)
+    {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
@@ -43,16 +91,18 @@ class AuthController extends Controller
         return redirect()->route('funcionario')->with('success', 'Funcionário registado com sucesso!');
     }
 
-    public function getFuncionarios() {
+    public function getFuncionarios()
+    {
         $funcionarios = User::all();
         return response()->json($funcionarios);
     }
 
-    public function showFuncionario() {
-        return view('auth.register');
-    }
+    // ===============================
+    // Funcionários - Edição
+    // ===============================
 
-    public function editFuncionario($id) {
+    public function editFuncionario($id)
+    {
         $funcionarios = User::findOrFail($id);
         return response()->json($funcionarios);
     }
@@ -73,36 +123,13 @@ class AuthController extends Controller
         return response()->json(['message' => 'Funcionário atualizado com sucesso!']);
     }
 
+    // ===============================
+    // Funcionários - Exclusão
+    // ===============================
 
-    public function deleteFuncionario($id) {
+    public function deleteFuncionario($id)
+    {
         User::destroy($id);
         return response()->json(['mensagem' => 'Usuário excluido com sucesso']);
-    }
-
-    public function logout(Request $request) {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerate();
-        return redirect()->route('admin.login');
-    }
-
-    public function painel () {
-        return view('pages.painel');
-    }
-
-    public function funcionario () {
-        return view('pages.funcionario');
-    }
-
-    public function inventario () {
-        return view('pages.inventario');
-    }
-
-    public function profile () {
-        return view('pages.profile');
-    }
-
-    public function showRegister() {
-        return view('auth.register');
     }
 }
