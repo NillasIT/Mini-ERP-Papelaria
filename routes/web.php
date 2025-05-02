@@ -25,13 +25,17 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/funcionario/edit/{id}', [AuthController::class, 'editFuncionario'])->name('funcionario.edit');
     Route::put('/funcionario/{id}', [AuthController::class, 'updateFuncionario'])->name('update.funcionario');
 
-    // Inventário
-    Route::get('/inventario', [AuthController::class, 'inventario'])->name('inventario');
-
     // Perfil
     Route::get('/profile', [AuthController::class, 'profile'])->name('profile');
 
     // Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    // Rotas para Produtos
+    Route::get('/produto', [ProductController::class, 'index'])->name('produtos.index');
+    Route::get('/produtos', [ProductController::class, 'getProducts'])->name('produtos.get');
+    Route::post('/produtos/add', [ProductController::class, 'store'])->name('produtos.store');
+    Route::post('/produtos/edit/{product}', [ProductController::class, 'update'])->name('produtos.update');
+    Route::delete('/produtos/{product}', [ProductController::class, 'destroy'])->name('produtos.destroy');
 });
 

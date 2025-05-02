@@ -11,9 +11,9 @@
             Funcionários
         </a>
 
-        <a href="{{ route('inventario') }}" class="icon-info {{ request()->is('inventario') ?  'active' : '' }}">
+        <a href="{{ route('produtos.index') }}" class="icon-info {{ request()->is('produto') ?  'active' : '' }}">
             <img src="{{ asset('assets/icons/inventario.png') }}" alt="dasboard">
-            Produtos/Inventário
+            Produtos
         </a>
 
         <a href="{{ route('funcionario') }}" class="icon-info {{ request()->is('clientes-fornecedor') ?  'active' : '' }}">

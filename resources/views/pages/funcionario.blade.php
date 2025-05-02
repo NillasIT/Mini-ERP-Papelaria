@@ -117,8 +117,6 @@
                         });
                     });
                 },
-                scrollY: '400px', // A altura da área rolável da tabela (ajuste conforme necessário)
-                scrollCollapse: true, // A tabela irá ajustar sua altura quando o conteúdo for menor que a altura especificada
 
                 responsive: true,
                 language: {
