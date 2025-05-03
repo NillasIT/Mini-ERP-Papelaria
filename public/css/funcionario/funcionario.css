@@ -220,9 +220,6 @@
     transform: scale(1.03);
 }
 
-
-
-/* Estilo geral da tabela */
 #tabela-funcionarios {
     width: 100% !important;
     /* Ocupa toda a largura disponível */
