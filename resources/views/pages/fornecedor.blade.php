@@ -1,38 +1,47 @@
 @extends('layouts.app')
 
-@section('title', 'Funcionários')
+@section('title', 'Fornecedores')
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/funcionario/funcionario.css') }}">
 @endsection
 
 @section('content')
-    @include('components.funcionarios.table')
+    @include('components.fornecedores.table')
 @endsection
 
 @section('modals')
-    @include('components.funcionarios.add_modal')
-    @include('components.funcionarios.edit_modal')
+    @include('components.fornecedores.add_modal')
+    @include('components.produtos.edit_modal')
 @endsection
 
 @section('scripts')
+    @section('scripts')
     <script>
         function abrirModal() {
-            document.getElementById('modal-funcionario').style.display = 'flex';
+            document.getElementById('modal-fornecedor').style.display = 'flex';
         }
 
         function fecharModal() {
-            document.getElementById('modal-funcionario').style.display = 'none';
+            document.getElementById('modal-fornecedor').style.display = 'none';
         }
 
         // Fechar ao clicar fora do conteúdo
         window.onclick = function(event) {
-            const modal = document.getElementById('modal-funcionario');
+            const modal = document.getElementById('modal-fornecedor');
             if (event.target === modal) {
                 fecharModal();
             }
         }
     </script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
 
     <script>
         $(document).ready(function() {
@@ -41,50 +50,18 @@
                 buttons: [{
                     extend: 'pdfHtml5',
                     text: 'Exportar PDF',
-                    title: 'Relatório de Funcionários',
+                    title: 'Lista de Fornecedores',
                     className: 'btn-export-pdf',
                     exportOptions: {
-                        columns: [0, 1, 2, 3] // ignora a coluna de ações
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7] // ignora a coluna de ações
                     }
                 }],
-
-                scrollX: true, // Adiciona rolagem horizontal
-                autoWidth: false, // Desativa ajuste automático de largura
-                columnDefs: [{
-                        width: '25%',
-                        targets: 0
-                    }, // Define a largura para a primeira coluna
-                    {
-                        width: '25%',
-                        targets: 1
-                    }, // Segunda coluna
-                    {
-                        width: '25%',
-                        targets: 2
-                    }, // Terceira coluna
-                    {
-                        width: '25%',
-                        targets: 3
-                    } // Quarta coluna
-                ],
                 pageLength: 9,
                 lengthMenu: [5, 10, 25, 50, 100],
                 initComplete: function() {
                     this.api().columns(3).every(function() {
                         const column = this;
-                        const select = $(
-                                '<select><option value="">Filtrar por Função</option></select>')
-                            .appendTo($(column.header()).empty())
-                            .on('change', function() {
-                                const val = $.fn.dataTable.util.escapeRegex($(this).val());
-                                column.search(val ? '^' + val + '$' : '', true, false)
-                                    .draw();
-                            });
-
-                        column.data().unique().sort().each(function(d) {
-                            select.append('<option value="' + d + '">' + d +
-                                '</option>');
-                        });
+                        
                     });
                 },
 
@@ -102,20 +79,29 @@
                     zeroRecords: "Nenhum funcionário encontrado"
                 },
                 ajax: {
-                    url: '{{ route('getFuncionarios') }}',
+                    url: '{{ route('fornecedores.get') }}',
                     dataSrc: ''
                 },
                 columns: [{
                         data: 'name'
                     },
                     {
+                        data: 'type'
+                    },
+                    {
+                        data: 'nuit'
+                    },
+                    {
                         data: 'email'
+                    },
+                    {
+                        data: 'adress'
                     },
                     {
                         data: 'phone'
                     },
                     {
-                        data: 'role'
+                        data: 'obs'
                     },
                     {
                         data: null,
@@ -128,8 +114,6 @@
                 ]
             });
 
-            table.buttons().container().appendTo('.dataTables_wrapper .col-md-6:eq(0)');
-
             // Ação de excluir funcionário
             $('#tabela-funcionarios').on('click', '.btn-delete', function(e) {
                 e.preventDefault();
@@ -138,7 +122,7 @@
 
                 if (confirm('Tem certeza que deseja excluir este funcionário?')) {
                     $.ajax({
-                        url: `/funcionario/${id}`, // Corrigido para a rota correta
+                        url: `/fornecedores/${fornecedor}`, 
                         method: 'DELETE',
                         data: {
                             _token: '{{ csrf_token() }}' // Incluindo o token CSRF
@@ -162,25 +146,22 @@
                 const id = rowData.id;
 
                 $.ajax({
-                    url: `/funcionario/edit/${id}`, // Rota para buscar os dados do funcionário
+                    url: `/fornecedores/edit/${fornecedor}`, // Rota para buscar os dados do funcionário
                     method: 'GET',
                     success: function(response) {
-                        $('#funcionario-id').val(response.id);
+                        $('#product-id').val(response.id);
                         $('#editar-nome').val(response.name);
-                        $('#editar-email').val(response.email);
-                        $('#editar-contacto').val(response.phone);
-                        $('#editar-funcao').val(response.role);
+                        $('#editar-description').val(response.description);
+                        $('#editar-preço').val(response.price);
+                        $('#editar-categoria').val(response.category);
+                        $('#editar-estoque').val(response.stock);
 
                         // Atualiza a URL do formulário para a rota correta
-                        $('#form-editar-funcionario').attr('action', `/funcionario/${id}`);
+                        $('#form-editar-funcionario').attr('action', `/produtos/edit/{product}`);
 
                         // Exibe a modal de edição
                         document.getElementById('modal-editar-funcionario').style.display =
                             'flex';
-                        document.getElementById('modal-overlay').style.display = 'block';
-
-                        // Exibe a modal de adição
-                        document.getElementById('modal-funcionario').style.display = 'flex';
                         document.getElementById('modal-overlay').style.display = 'block';
                     },
                     error: function(error) {
@@ -198,9 +179,6 @@
 
             function abrirModal() {
                 document.getElementById('modal-editar-funcionario').style.display = 'flex';
-                document.getElementById('modal-overlay').style.display = 'block';
-
-                document.getElementById('modal-funcionario').style.display = 'flex';
                 document.getElementById('modal-overlay').style.display = 'block';
             }
 
@@ -240,11 +218,4 @@
             modalEditar.style.display = 'none';
         });
     </script>
-
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.min.js"></script>
 @endsection

@@ -10,16 +10,14 @@
     /* Organiza o conteúdo de forma vertical */
     position: relative;
     width: calc(100% - 250px);
-    /* Garante que o conteúdo ocupe o restante da tela, após a barra
- lateral */
+    /* Garante que o conteúdo ocupe o restante da tela, após a barra lateral */
     margin: 20px;
-
 }
 
 .funcionario-content-body {
     overflow-y: auto;
     padding-right: 10px;
-    /* evita que a rolagem sobreponha o conteúdo */
+    /* Evita que a rolagem sobreponha o conteúdo */
     justify-content: center;
     align-items: center;
     min-height: 100vh;
@@ -35,9 +33,7 @@
     position: sticky;
     z-index: 2;
     /* Para garantir que o cabeçalho fique acima do conteúdo */
-
 }
-
 
 .perfil-btn {
     background: linear-gradient(to bottom, #1f2937, #111827);
@@ -224,6 +220,8 @@
     transform: scale(1.03);
 }
 
+
+
 /* Estilo geral da tabela */
 #tabela-funcionarios {
     width: 100% !important;
@@ -261,8 +259,10 @@
     border-bottom: 1px solid #f1f1f1;
     color: #34495e;
     font-size: 13px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
-
 
 /* Linhas alternadas para contraste */
 #tabela-funcionarios tr:nth-child(even) {
@@ -326,7 +326,6 @@ select:hover {
     border-color: #3498db;
 }
 
-
 /* Estilo para os botões de exportação e pesquisa */
 .dataTables_wrapper .dt-buttons .btn,
 .dataTables_wrapper .dataTables_filter input,
@@ -334,7 +333,6 @@ select:hover {
     font-size: 14px;
     padding: 8px 16px;
     border-radius: 10px;
-    /* Menos arredondado */
     border: 1px solid #ddd;
     background-color: #f4f6f9;
     color: #333;
@@ -348,7 +346,6 @@ select:hover {
 .dataTables_wrapper .dataTables_filter input {
     width: 250px;
     border-radius: 10px;
-    /* Menos arredondado */
     padding-left: 20px;
     font-size: 14px;
     border: 1px solid #ddd;
@@ -366,18 +363,15 @@ select:hover {
     background-color: #f4f6f9;
     color: #007bff;
     border-radius: 10px;
-    /* Menos arredondado */
     border: 1px solid #ddd;
 }
 
 /* Estilo para os botões de exportação */
 .dataTables_wrapper .dt-buttons .btn-export-pdf {
     background-color: #66be7b;
-    /* Cor mais forte para o botão */
     color: white;
     padding: 8px 16px;
     border-radius: 10px;
-    /* Menos arredondado */
     font-size: 14px;
     font-weight: 600;
     border: none;

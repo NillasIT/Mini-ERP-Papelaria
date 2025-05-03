@@ -1,0 +1,104 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #f8fbfc;
+    min-height: 100vh;
+    height: 100%;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    background: linear-gradient(to bottom, #1f2937, #111827);
+    /* mesmo gradiente do .sidebar */
+    overflow: hidden;
+    position: relative;
+}
+
+.content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    width: 100%;
+    height: 100%;
+}
+
+.content-box {
+    background-color: #f0f0f0;
+    padding: 25px;
+    width: 100%;
+    height: 100%;
+    flex: 1;
+    border-radius: 30px;
+    display: flex;
+    /* Flexbox para o conteúdo */
+    flex-direction: column;
+    /* Organiza o conteúdo de forma vertical */
+    overflow-y: auto;
+    /* Habilita a rolagem vertical */
+    position: relative;
+
+    margin: 20px;
+}
+
+.body-content {
+    flex: 1;
+        /* Permite que o conteúdo ocupe o espaço restante */
+        overflow-y: auto;
+        /* Permite apenas o conteúdo rolar */
+}
+
+.header {
+    font-size: 15px;
+    color: #1f2937;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    position: sticky;
+    z-index: 2;
+    /* Para garantir que o cabeçalho fique acima do conteúdo */
+}
+
+.perfil-btn {
+    background: linear-gradient(to bottom, #1f2937, #111827);
+    border-radius: 18px;
+    padding: 10px 20px;
+    margin-left: 10px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.perfil-btn a {
+    cursor: pointer;
+    color: white;
+    text-decoration: none;
+    align-items: center;
+    gap: 8px;
+}
+
+.perfil-btn img {
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+.variable {
+    color: white;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.info {
+    color: #3c4c56;
+    font-size: 20px;
+    font-weight: bold;
+}

@@ -24,6 +24,11 @@ class AuthController extends Controller
         $validated = $request->validate([
             'email' => 'required|email',
             'password' => 'required|string'
+        ], [
+            'email.required' => 'O campo email é obrigatório',
+            'email.email' => 'O campo email deve ser um endereço de email válido',
+            'password.required' => 'O campo password é obrigatório',
+            'password.string' => 'O campo password deve ser uma string'
         ]);
 
         if (Auth::attempt($validated)) {
@@ -50,7 +55,7 @@ class AuthController extends Controller
 
     public function painel()
     {
-        return view('pages.painel');
+        return view('pages.dashboard');
     }
 
     public function funcionario()

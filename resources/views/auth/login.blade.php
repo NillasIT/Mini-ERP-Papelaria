@@ -1,9 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.login')
 
 @section('title', 'Login Page')
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/login/login.css') }}">
 @endsection
 
 @section('content')
@@ -14,7 +14,7 @@
 
         <div class="right-column">
             <div class="container-form">
-                @include('components.login_form')
+                @include('components.login.login_form')
             </div>
         </div>
     </div>

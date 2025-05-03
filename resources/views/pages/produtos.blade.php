@@ -1,64 +1,22 @@
 @extends('layouts.app')
 
-@section('title', 'funcionarios')
+@section('title', 'Produtos')
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/painel.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/sidebar.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/funcionario.css') }}">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" href="{{ asset('css/funcionario/funcionario.css') }}">
 @endsection
 
 @section('content')
-    <div class="container">
-        @include('components.sidebar')
+    @include('components.produtos.table')
+@endsection
 
-        <div class="funcionario-content">
-            <div class="funcionario-header">
-                <h1>Bem-vindo, {{ auth()->user()->name }}!</h1>
-
-                <div class="perfil-btn">
-                    <a href="{{ route('profile') }}">
-                        <img src="{{ asset('assets/icons/profile.png') }}" alt="dasboard">
-                        Ver perfil
-                    </a>
-                </div>
-            </div>
-
-            <div class="funcionario-content-body">
-                <h1>Productos</h1>
-                <p class="info">Gerencie os seus productos da Repografia</p>
-                <div class="funcionario-btn">
-                    <a href="#" class="btn-add" onclick="abrirModal()">
-                        <img src="{{ asset('assets/icons/add.png') }}" alt="">Adicionar
-                    </a>
-                </div>
-
-                <div class="table-funcionarios">
-                    <table id="tabela-funcionarios" class="display nowrap" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th>Nome</th>
-                                <th>Descrição</th>
-                                <th>Preço</th>
-                                <th>Categoria</th>
-                                <th>Estoque</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-            </div>
-
-
-        </div>
-    </div>
-    @include('components.add_product_modal')
-    @include('components.edit_modal')
+@section('modals')
+    @include('components.produtos.add_modal')
+    @include('components.produtos.edit_modal')
 @endsection
 
 @section('scripts')
+    @section('scripts')
     <script>
         function abrirModal() {
             document.getElementById('modal-product').style.display = 'flex';

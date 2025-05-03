@@ -3,16 +3,15 @@
 @section('title', 'Painel de Controle')
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/painel.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/sidebar.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/dashboard-content.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/dashboard/cards.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/dashboard/charts.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/dashboard/table.css') }}">
 @endsection
 
 @section('content')
-    <div class="container">
-        @include('components.sidebar')
-        @include('components.dasboard-content')
-    </div>
+    @include('components.dashboard.cards')
+    @include('components.dashboard.charts')
+    @include('components.dashboard.tables')
 @endsection
 
 @section('scripts')

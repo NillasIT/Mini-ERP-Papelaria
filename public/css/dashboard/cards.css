@@ -1,0 +1,29 @@
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    background: #ffffff;
+    border-radius: 15px;
+    padding: 20px;
+    justify-content: space-between;
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.card {
+    display: flex;
+    background: #3188c6;
+    border-radius: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 200px;
+    height: 150px;
+    padding-left: 4px;
+    padding-right: 4px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: white;
+    font-size: 20px;
+    text-align: center;
+    gap: 12px;
+}

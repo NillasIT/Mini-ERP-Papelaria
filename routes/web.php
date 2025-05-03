@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
-use App\Models\Product;
+use App\Http\Controllers\FornecedorController;
 
 // Rotas de Login
 Route::get('/login/admin', [AuthController::class, 'showLogin'])->name('admin.login');
@@ -12,7 +12,6 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 // Rotas Protegidas (com Middleware 'auth')
 Route::middleware(['auth'])->group(function () {
-
     // Painel Principal
     Route::get('/painel', [AuthController::class, 'painel'])->name('painel');
 
@@ -37,5 +36,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/produtos/add', [ProductController::class, 'store'])->name('produtos.store');
     Route::post('/produtos/edit/{product}', [ProductController::class, 'update'])->name('produtos.update');
     Route::delete('/produtos/{product}', [ProductController::class, 'destroy'])->name('produtos.destroy');
+
+    // Rotas para Fornecedores
+    Route::get('/fornecedor', [FornecedorController::class, 'index'])->name('fornecedores.index');
+    Route::get('/fornecedores', [FornecedorController::class, 'getFornecedores'])->name('fornecedores.get');
+    Route::post('/fornecedores/add', [FornecedorController::class, 'store'])->name('fornecedores.store');
+    Route::post('/fornecedores/edit/{fornecedor}', [FornecedorController::class, 'update'])->name('fornecedores.update');
+    Route::delete('/fornecedores/{fornecedor}', [FornecedorController::class, 'destroy'])->name('fornecedores.destroy');
 });
 

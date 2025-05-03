@@ -16,7 +16,7 @@
             Produtos
         </a>
 
-        <a href="{{ route('funcionario') }}" class="icon-info {{ request()->is('clientes-fornecedor') ?  'active' : '' }}">
+        <a href="{{ route('fornecedores.index') }}" class="icon-info {{ request()->is('fornecedores') ?  'active' : '' }}">
             <img src="{{ asset('assets/icons/fornecedor.png') }}" alt="dasboard">
             Fornecedores
         </a>
