@@ -15,4 +15,14 @@ class Venda extends Model
         'total',
         'data_venda',
     ];
+
+    public function produto()
+    {
+        return $this->belongsTo(Product::class, 'produto_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

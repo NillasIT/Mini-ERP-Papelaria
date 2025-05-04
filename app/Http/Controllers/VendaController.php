@@ -21,30 +21,32 @@ class VendaController extends Controller
         return response()->json($vendas);
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $produto = Product::findOrFail($request->produto_id);
-        $user = User::findOrFail($request->user_id);
 
-        //Validação de estoque
+        // Validação de estoque
         if ($request->quantidade > $produto->stock) {
             return back()->with('error', 'Quantidade solicitada maior que o estoque disponível.');
         }
-
 
         $quantidade = $request->quantidade;
         $preco_unitario = $produto->price;
         $total = $quantidade * $preco_unitario;
 
+        // Criar nova venda
         Venda::create([
             'produto_id' => $produto->id,
-            'user_id' => auth()->$user->id,
+            'user_id' => auth()->user()->id, // Correção feita aqui
             'quantidade' => $quantidade,
             'preco_unitario' => $preco_unitario,
             'total' => $total,
         ]);
 
+        // Atualizar estoque do produto
         $produto->stock -= $quantidade;
         $produto->save();
+
         return redirect()->route('vendas.index')->with('success', 'Venda realizada com sucesso!');
     }
 }
