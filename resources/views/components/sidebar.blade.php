@@ -21,7 +21,7 @@
             Fornecedores
         </a>
 
-        <a href="#" class="icon-info {{ request()->is('vendas') ?  'active' : '' }}">
+        <a href="{{ route('vendas.index') }}" class="icon-info {{ request()->is('vendas') ?  'active' : '' }}">
             <img src="{{ asset('assets/icons/vendas.png') }}" alt="dasboard">
            Vendas
         </a>

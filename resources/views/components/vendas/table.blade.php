@@ -17,7 +17,6 @@
                     <th>Email</th>
                     <th>Endereço</th>
                     <th>Contacto</th>
-                    <th>Observação</th>
                     <th></th>
                 </tr>
             </thead>

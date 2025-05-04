@@ -13,4 +13,8 @@ class Product extends Model
         'stock',
         'category',
     ];
+
+    public function Venda() {
+        return $this->hasMany(Venda::class);
+    }
 }

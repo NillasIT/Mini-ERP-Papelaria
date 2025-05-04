@@ -18,7 +18,7 @@ class AdminSeeder extends Seeder
             'email' => 'nilton.matias@icloud.com',
             'phone' => '+258 87 774 0104',
             'password' =>hash::make('machavasede14'),
-            'role' => 'admin',
+            'role' => 'Administrador',
         ]);
     }
 }

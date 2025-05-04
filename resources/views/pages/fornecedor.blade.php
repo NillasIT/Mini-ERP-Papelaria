@@ -53,7 +53,7 @@
                     title: 'Lista de Fornecedores',
                     className: 'btn-export-pdf',
                     exportOptions: {
-                        columns: [0, 1, 2, 3, 4, 5, 6, 7] // ignora a coluna de ações
+                        columns: [0, 1, 2, 3, 4, 5, 6] // ignora a coluna de ações
                     }
                 }],
                 pageLength: 9,
@@ -100,9 +100,7 @@
                     {
                         data: 'phone'
                     },
-                    {
-                        data: 'obs'
-                    },
+                
                     {
                         data: null,
                         className: 'actions',

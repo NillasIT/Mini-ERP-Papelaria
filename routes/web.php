@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\FornecedorController;
+use App\Http\Controllers\VendaController;
 
 // Rotas de Login
 Route::get('/login/admin', [AuthController::class, 'showLogin'])->name('admin.login');
@@ -43,5 +44,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/fornecedores/add', [FornecedorController::class, 'store'])->name('fornecedores.store');
     Route::post('/fornecedores/edit/{fornecedor}', [FornecedorController::class, 'update'])->name('fornecedores.update');
     Route::delete('/fornecedores/{fornecedor}', [FornecedorController::class, 'destroy'])->name('fornecedores.destroy');
+
+    // Rotas para Vendas
+    Route::get('/vendas', [VendaController::class, 'index'])->name('vendas.index');
+    Route::post('/vendas/add', [VendaController::class, 'store'])->name('vendas.store');
 });
 
