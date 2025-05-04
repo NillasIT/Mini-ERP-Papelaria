@@ -1,5 +1,5 @@
 <div class="sidebar">
-    <h1>LOGO</h1>
+    <h1>FSOCIETY</h1>
     <div class="container-info">
         <a href="{{ route('painel') }}" class="icon-info {{ request()->is('painel') ?  'active' : '' }}">
             <img src="{{ asset('assets/icons/dashboard.png') }}" alt="dasboard">

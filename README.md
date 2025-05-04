@@ -22,6 +22,28 @@ Este projeto foi construído utilizando o framework **Laravel**, garantindo uma 
 
 ---
 
+## Imagens do Projeto
+
+### Imagem 1: Tela Inicial
+![Tela Inicial](public/assets/project_screenshot/1.png)
+
+### Imagem 2: Dashboard
+![Dashboard](public/assets/project_screenshot/2.png)
+
+### Imagem 3: Gestão de Produtos
+![Gestão de Produtos](public/assets/project_screenshot/3.png)
+
+### Imagem 4: Página de Fornecedores
+![Página de Fornecedores](public/assets/project_screenshot/4.png)
+
+### Imagem 5: Página de Funcionários
+![Página de Funcionários](public/assets/project_screenshot/5.png)
+
+### Imagem 6: Relatórios e Estatísticas
+![Relatórios e Estatísticas](public/assets/project_screenshot/6.png)
+
+---
+
 ## Tecnologias Utilizadas
 
 - **Backend**: [PHP](https://www.php.net/) com [Laravel](https://laravel.com/)
