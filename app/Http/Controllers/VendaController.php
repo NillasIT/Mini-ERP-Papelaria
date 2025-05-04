@@ -11,7 +11,8 @@ class VendaController extends Controller
 {
     public function index() {
         $produtos = Product::all();
-        return view('pages.vendas', compact('produtos'));
+        $vendas = Venda::with('produto', 'user')->get(); //carregar relações
+        return view('pages.vendas', compact('produtos', 'vendas'));
     }
 
     public function getVendas()
@@ -23,6 +24,12 @@ class VendaController extends Controller
     public function store(Request $request) {
         $produto = Product::findOrFail($request->produto_id);
         $user = User::findOrFail($request->user_id);
+
+        //Validação de estoque
+        if ($request->quantidade > $produto->stock) {
+            return back()->with('error', 'Quantidade solicitada maior que o estoque disponível.');
+        }
+
 
         $quantidade = $request->quantidade;
         $preco_unitario = $produto->price;

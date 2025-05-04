@@ -16,7 +16,6 @@
 @endsection
 
 @section('scripts')
-    @section('scripts')
     <script>
         function abrirModal() {
             document.getElementById('modal-product').style.display = 'flex';
