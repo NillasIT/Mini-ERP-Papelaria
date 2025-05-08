@@ -3,49 +3,27 @@
     <table>
         <thead>
             <tr>
+                <th>#</th>
                 <th>Produto</th>
-                <th>Data</th>
                 <th>Quantidade</th>
-                <th>Valor</th>
+                <th>Preço Unitário (MT)</th>
+                <th>Total (MT)</th>
+                <th>Usuário</th>
+                <th>Data</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>Caneta Azul</td>
-                <td>30/04/2025</td>
-                <td>10</td>
-                <td>150 MZN</td>
-            </tr>
-            <tr>
-                <td>Papel A4 (Resma)</td>
-                <td>30/04/2025</td>
-                <td>2</td>
-                <td>600 MZN</td>
-            </tr>
-            <tr>
-                <td>Tinteiro HP</td>
-                <td>30/04/2025</td>
-                <td>1</td>
-                <td>1.200 MZN</td>
-            </tr>
-            <tr>
-                <td>Tinteiro HP</td>
-                <td>30/04/2025</td>
-                <td>1</td>
-                <td>1.200 MZN</td>
-            </tr>
-            <tr>
-                <td>Tinteiro HP</td>
-                <td>30/04/2025</td>
-                <td>1</td>
-                <td>1.200 MZN</td>
-            </tr>
-            <tr>
-                <td>Tinteiro HP</td>
-                <td>30/04/2025</td>
-                <td>1</td>
-                <td>1.200 MZN</td>
-            </tr>
+            @foreach ($ultimasVendas as $venda)
+                <tr>
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $venda->produto->name }}</td>
+                    <td>{{ $venda->quantidade }}</td>
+                    <td>{{ number_format($venda->preco_unitario, 2, ',', '.') }}MT</td>
+                    <td>{{ number_format($venda->total, 2, ',', '.') }}MT</td>
+                    <td>{{ $venda->user->name }}</td>
+                    <td>{{ $venda->created_at->format('d/m/Y H:i') }}</td>
+                </tr>
+            @endforeach
         </tbody>
     </table>
 </div>
@@ -55,24 +33,21 @@
     <table>
         <thead>
             <tr>
-                <th>Produto</th>
-                <th>Quantidade</th>
-
+                <th>#</th>
+                <th>Nome do Produto</th>
+                <th>Descrição</th>
+                <th>Estoque</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>Caneta Azul</td>
-                <td>10</td>
-            </tr>
-            <tr>
-                <td>Papel A4 (Resma)</td>
-                <td>2</td>
-            </tr>
-            <tr>
-                <td>Tinteiro HP</td>
-                <td>1</td>
-            </tr>
+            @foreach ($produtosEstoqueBaixo as $produto)
+                <tr>
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $produto->name }}</td>
+                    <td>{{ $produto->description }}</td>
+                    <td>{{ $produto->stock }}</td>
+                </tr>
+            @endforeach
         </tbody>
     </table>
 </div>

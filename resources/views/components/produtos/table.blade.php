@@ -13,7 +13,7 @@
                 <tr>
                     <th>Nome</th>
                     <th>Descrição</th>
-                    <th>Preço</th>
+                    <th>Preço (MT)</th>
                     <th>Categoria</th>
                     <th>Estoque</th>
                     <th></th>

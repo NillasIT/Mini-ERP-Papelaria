@@ -15,16 +15,20 @@
 @endsection
 
 @section('scripts')
+@section('scripts')
     <script>
         const ctx = document.getElementById('salesChart').getContext('2d');
+
+        // Dados de vendas semanais passados pelo Blade
+        const vendasSemanais = @json($vendasSemanais);
 
         const salesChart = new Chart(ctx, {
             type: 'line', // Tipo do gráfico (linha)
             data: {
-                labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'], // Eixo X (dias da semana)
+                labels: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'], // Eixo X (dias da semana)
                 datasets: [{
                     label: 'Vendas (MT)', // Rótulo para o gráfico
-                    data: [500, 750, 200, 400, 650, 300, 900], // Dados das vendas
+                    data: vendasSemanais, // Dados das vendas semanais dinâmicos
                     backgroundColor: 'rgba(59, 130, 246, 0.2)', // Cor de fundo da área do gráfico
                     borderColor: 'rgba(59, 130, 246, 1)', // Cor da linha do gráfico
                     borderWidth: 2, // Espessura da linha
@@ -49,16 +53,17 @@
             }
         });
     </script>
+@endsection
 
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 
-    <!-- JS do DataTables -->
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<!-- JS do DataTables -->
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 
-    <script>
-        $(document).ready(function() {
-            $('#minhaTabela').DataTable();
-        })
-    </script>
+<script>
+    $(document).ready(function() {
+        $('#minhaTabela').DataTable();
+    })
+</script>
 @endsection

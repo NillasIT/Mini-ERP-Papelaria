@@ -19,7 +19,7 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-    public function login(Request $request)
+    public function adminLogin(Request $request)
     {
         $validated = $request->validate([
             'email' => 'required|email',
@@ -31,13 +31,37 @@ class AuthController extends Controller
             'password.string' => 'O campo password deve ser uma string'
         ]);
 
-        if (Auth::attempt($validated)) {
+        // Tenta autenticar com 'role' específico
+        if (Auth::attempt(array_merge($validated, ['role' => 'Administrador']))) {
             $request->session()->regenerate();
-            return redirect()->route('painel');
+            return redirect()->route('dashboard'); // Redireciona para o painel
         }
 
         throw ValidationException::withMessages([
-            'credentials' => '▪ Desculpe, as credenciais estão incorrectas'
+            'credentials' => '▪ Desculpe, as credenciais estão incorretas ou você não é um Administrador'
+        ]);
+    }
+
+    public function funcionarioLogin(Request $request)
+    {
+        $validated = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string'
+        ], [
+            'email.required' => 'O campo email é obrigatório',
+            'email.email' => 'O campo email deve ser um endereço de email válido',
+            'password.required' => 'O campo password é obrigatório',
+            'password.string' => 'O campo password deve ser uma string'
+        ]);
+
+        // Tenta autenticar com 'role' específico
+        if (Auth::attempt(array_merge($validated, ['role' => 'Funcionario']))) {
+            $request->session()->regenerate();
+            return redirect()->route('dashboard'); // Redireciona para o painel
+        }
+
+        throw ValidationException::withMessages([
+            'credentials' => '▪ Desculpe, as credenciais estão incorretas ou você não é um Funcionário'
         ]);
     }
 
@@ -53,25 +77,11 @@ class AuthController extends Controller
     // Painel e Páginas
     // ===============================
 
-    public function painel()
-    {
-        return view('pages.dashboard');
-    }
-
     public function funcionario()
     {
         return view('pages.funcionario');
     }
 
-    public function inventario()
-    {
-        return view('pages.inventario');
-    }
-
-    public function profile()
-    {
-        return view('pages.profile');
-    }
 
     // ===============================
     // Funcionários - Visualização e Registro

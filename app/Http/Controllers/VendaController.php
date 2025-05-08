@@ -5,48 +5,46 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Venda;
-use App\Models\User;
 
 class VendaController extends Controller
 {
-    public function index() {
-        $produtos = Product::all();
-        $vendas = Venda::with('produto', 'user')->get(); //carregar relações
-        return view('pages.vendas', compact('produtos', 'vendas'));
-    }
-
     public function getVendas()
     {
-        $vendas = Venda::all();
+        $vendas = Venda::with(['produto:id,name', 'user:id,name'])->get(['id', 'produto_id', 'user_id', 'quantidade', 'preco_unitario', 'total', 'data_venda']);
         return response()->json($vendas);
+    }
+
+    public function index()
+    {
+        $produtos = Product::all(); // Obtenha os produtos do banco de dados
+        $vendas = Venda::all();
+        return view('pages.vendas', compact('produtos', 'vendas'));
     }
 
     public function store(Request $request)
     {
-        $produto = Product::findOrFail($request->produto_id);
+        $validated = $request->validate([
+            'produto_id' => 'required|exists:products,id',
+            'quantidade' => 'required|integer|min:1',
+        ]);
 
-        // Validação de estoque
-        if ($request->quantidade > $produto->stock) {
-            return back()->with('error', 'Quantidade solicitada maior que o estoque disponível.');
+        $produto = Product::findOrFail($validated['produto_id']);
+
+        if ($validated['quantidade'] > $produto->stock) {
+            return back()->withErrors(['quantidade' => 'Quantidade excede o estoque disponível.']);
         }
 
-        $quantidade = $request->quantidade;
-        $preco_unitario = $produto->price;
-        $total = $quantidade * $preco_unitario;
-
-        // Criar nova venda
-        Venda::create([
+        // Criação da venda
+        $venda = auth()->user()->vendas()->create([
             'produto_id' => $produto->id,
-            'user_id' => auth()->user()->id, // Correção feita aqui
-            'quantidade' => $quantidade,
-            'preco_unitario' => $preco_unitario,
-            'total' => $total,
+            'quantidade' => $validated['quantidade'],
+            'preco_unitario' => $produto->price,
+            'total' => $produto->price * $validated['quantidade'],
         ]);
 
         // Atualizar estoque do produto
-        $produto->stock -= $quantidade;
-        $produto->save();
+        $produto->decrement('stock', $validated['quantidade']);
 
-        return redirect()->route('vendas.index')->with('success', 'Venda realizada com sucesso!');
+        return redirect()->route('vendas.index')->with('success', 'Venda registrada com sucesso!');
     }
 }

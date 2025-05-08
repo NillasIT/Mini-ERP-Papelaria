@@ -1,7 +1,7 @@
 <div class="sidebar">
     <h1>FSOCIETY</h1>
     <div class="container-info">
-        <a href="{{ route('painel') }}" class="icon-info {{ request()->is('painel') ?  'active' : '' }}">
+        <a href="{{ route('dashboard') }}" class="icon-info {{ request()->is('dashboard') ?  'active' : '' }}">
             <img src="{{ asset('assets/icons/dashboard.png') }}" alt="dasboard">
             Dashboard
         </a>
@@ -24,11 +24,6 @@
         <a href="{{ route('vendas.index') }}" class="icon-info {{ request()->is('vendas') ?  'active' : '' }}">
             <img src="{{ asset('assets/icons/vendas.png') }}" alt="dasboard">
            Vendas
-        </a>
-
-        <a href="#" class="icon-info {{ request()->is('relatorios') ?  'active' : '' }}">
-            <img src="{{ asset('assets/icons/relatorio.png') }}" alt="dasboard">
-            Relatórios
         </a>
 
         <form action="{{ route('logout') }}" method="POST">
