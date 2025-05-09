@@ -10,16 +10,38 @@ class VendaController extends Controller
 {
     public function getVendas()
     {
-        $vendas = Venda::with(['produto:id,name', 'user:id,name'])->get(['id', 'produto_id', 'user_id', 'quantidade', 'preco_unitario', 'total', 'data_venda']);
+        $user = auth()->user();
+
+        $query = Venda::with(['produto:id,name', 'user:id,name'])
+            ->select(['id', 'produto_id', 'user_id', 'quantidade', 'preco_unitario', 'total', 'data_venda']);
+
+        // Se for funcionário, filtra pelas vendas do próprio usuário
+        if ($user->role === 'Funcionário') {
+            $query->where('user_id', $user->id);
+        }
+
+        $vendas = $query->get();
+
         return response()->json($vendas);
     }
 
+
     public function index()
     {
-        $produtos = Product::all(); // Obtenha os produtos do banco de dados
-        $vendas = Venda::all();
+        $produtos = Product::all();
+        $user = auth()->user();
+
+        $query = Venda::with(['produto:id,name', 'user:id,name']);
+
+        if ($user->role === 'Funcionário') {
+            $query->where('user_id', $user->id);
+        }
+
+        $vendas = $query->get();
+
         return view('pages.vendas', compact('produtos', 'vendas'));
     }
+
 
     public function store(Request $request)
     {

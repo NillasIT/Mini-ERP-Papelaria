@@ -12,38 +12,57 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        // Data atual
         $hoje = Carbon::today();
+        $user = auth()->user(); // Usuário autenticado
 
-        // Obter as últimas 6 vendas
-        $ultimasVendas = Venda::with(['produto', 'user']) // Carrega relacionamento do produto e do usuário
-            ->latest('created_at') // Ordena pelas vendas mais recentes
-            ->take(6) // Limita a 6 registros
+        // Consulta base de vendas
+        $queryVendas = Venda::query();
+
+        // Se o usuário for Funcionário, filtrar por ele mesmo
+        if ($user->role === 'Funcionário') {
+            $queryVendas->where('user_id', $user->id);
+        }
+
+        // Últimas 6 vendas
+        $ultimasVendas = (clone $queryVendas)
+            ->with(['produto', 'user'])
+            ->latest('created_at')
+            ->take(6)
             ->get();
 
-        // Obter produtos com estoque baixo (menor ou igual a 5)
-        $produtosEstoqueBaixo = Product::where('stock', '<=', 5)->get();
+        // Vendas hoje
+        $numeroDeVendas = (clone $queryVendas)
+            ->whereDate('created_at', $hoje)
+            ->count();
 
-        // Obter o total de vendas por dia na última semana
-        $vendasSemanais = Venda::select(
-            DB::raw('DAYOFWEEK(created_at) as dia'),
-            DB::raw('SUM(total) as total_vendas')
-        )
+        $totalDeVendas = (clone $queryVendas)
+            ->whereDate('created_at', $hoje)
+            ->sum('total');
+
+        // Vendas da semana para gráfico
+        $vendasSemanais = (clone $queryVendas)
+            ->select(
+                DB::raw('DAYOFWEEK(created_at) as dia'),
+                DB::raw('SUM(total) as total_vendas')
+            )
             ->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
             ->groupBy('dia')
             ->orderBy('dia')
             ->get();
 
-        // Formatar os dados para o gráfico
-        $vendasPorDia = array_fill(1, 7, 0); // Inicializa os dias da semana com 0
+        $vendasPorDia = array_fill(1, 7, 0);
         foreach ($vendasSemanais as $venda) {
             $vendasPorDia[$venda->dia] = $venda->total_vendas;
         }
 
-        // Dados para passar à view
-        $numeroDeVendas = Venda::whereDate('created_at', $hoje)->count();
-        $totalDeVendas = Venda::whereDate('created_at', $hoje)->sum('total');
-        $numeroDeFuncionarios = User::count();
+        // Dados adicionais (somente Admin vê)
+        $produtosEstoqueBaixo = Product::where('stock', '<=', 5)->get();
+          
+
+        $numeroDeFuncionarios = $user->role === 'Administrador'
+            ? User::count()
+            : null;
+
         $produtosDisponiveis = Product::count();
 
         return view('pages.dashboard', [
@@ -51,9 +70,10 @@ class DashboardController extends Controller
             'totalDeVendas' => $totalDeVendas,
             'numeroDeFuncionarios' => $numeroDeFuncionarios,
             'produtosDisponiveis' => $produtosDisponiveis,
-            'ultimasVendas' => $ultimasVendas, // Passa as últimas vendas
-            'produtosEstoqueBaixo' => $produtosEstoqueBaixo, // Passa os produtos com estoque baixo
-            'vendasSemanais' => array_values($vendasPorDia) // Passa os valores das vendas semanais
+            'ultimasVendas' => $ultimasVendas,
+            'produtosEstoqueBaixo' => $produtosEstoqueBaixo,
+            'vendasSemanais' => array_values($vendasPorDia),
+            'userRole' => $user->role,
         ]);
     }
 }

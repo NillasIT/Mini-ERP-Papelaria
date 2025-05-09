@@ -12,32 +12,32 @@
                 Funcionários
             </a>
 
-            <a href="{{ route('produtos.index') }}" class="icon-info {{ request()->is('produto/admin') ?  'active' : '' }}">
+            <a href="{{ route('produtos.index') }}" class="icon-info {{ request()->is('produto') ?  'active' : '' }}">
                 <img src="{{ asset('assets/icons/inventario.png') }}" alt="produtos">
                 Produtos
             </a>
 
-            <a href="{{ route('fornecedores.index') }}" class="icon-info {{ request()->is('fornecedores') ?  'active' : '' }}">
+            <a href="{{ route('fornecedores.index') }}" class="icon-info {{ request()->is('fornecedor') ?  'active' : '' }}">
                 <img src="{{ asset('assets/icons/fornecedor.png') }}" alt="fornecedores">
                 Fornecedores
             </a>
 
-            <a href="{{ route('vendas.index') }}" class="icon-info {{ request()->is('vendas') ?  'active' : '' }}">
+            <a href="{{ route('vendas.index') }}" class="icon-info {{ request()->is('venda') ?  'active' : '' }}">
                 <img src="{{ asset('assets/icons/vendas.png') }}" alt="vendas">
                 Vendas
             </a>
         @elseif (Auth::user()->role === 'Funcionário')
-            <a href="{{ route('dashboard') }}" class="icon-info {{ request()->is('dashboard/funcionario') ?  'active' : '' }}">
+            <a href="{{ route('dashboard') }}" class="icon-info {{ request()->is('dashboard') ?  'active' : '' }}">
                 <img src="{{ asset('assets/icons/dashboard.png') }}" alt="dashboard">
                 Dashboard
             </a>
 
-            <a href="{{ route('produtos.index') }}" class="icon-info {{ request()->is('produto/funcionario') ?  'active' : '' }}">
+            <a href="{{ route('produtos.index') }}" class="icon-info {{ request()->is('produto') ?  'active' : '' }}">
                 <img src="{{ asset('assets/icons/inventario.png') }}" alt="produtos">
                 Produtos
             </a>
 
-            <a href="{{ route('vendas.index') }}" class="icon-info {{ request()->is('vendas') ?  'active' : '' }}">
+            <a href="{{ route('vendas.index') }}" class="icon-info {{ request()->is('venda') ?  'active' : '' }}">
                 <img src="{{ asset('assets/icons/vendas.png') }}" alt="vendas">
                 Vendas
             </a>

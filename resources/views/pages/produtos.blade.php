@@ -17,6 +17,10 @@
 
 @section('scripts')
     <script>
+        const userRole = "{{ auth()->user()->role }}";
+    </script>
+
+    <script>
         function abrirModal() {
             document.getElementById('modal-product').style.display = 'flex';
         }
@@ -61,7 +65,8 @@
                     this.api().columns(3).every(function() {
                         const column = this;
                         const select = $(
-                                '<select><option value="">Filtrar por Categoria</option></select>')
+                                '<select><option value="">Filtrar por Categoria</option></select>'
+                            )
                             .appendTo($(column.header()).empty())
                             .on('change', function() {
                                 const val = $.fn.dataTable.util.escapeRegex($(this).val());
@@ -69,7 +74,7 @@
                                     .draw();
                             });
 
-                            column.data().unique().sort().each(function(d) {
+                        column.data().unique().sort().each(function(d) {
                             select.append('<option value="' + d + '">' + d +
                                 '</option>');
                         });
@@ -111,10 +116,16 @@
                     {
                         data: null,
                         className: 'actions',
-                        defaultContent: `
-                    <a href="#" class="btn btn-sm btn-warning btn-edit">Editar</a>
-                    <a href="#" class="btn btn-sm btn-danger btn-delete">Excluir</a>
-                `
+                        render: function(data, type, row) {
+                            if (userRole === 'Administrador') {
+                                return `
+                                    <a href="#" class="btn btn-sm btn-warning btn-edit">Editar</a>
+                                    <a href="#" class="btn btn-sm btn-danger btn-delete">Excluir</a>
+                                `;
+                            } else {
+                                return ''; // Funcionários não verão os botões
+                            }
+                        }
                     }
                 ]
             });
@@ -127,7 +138,7 @@
 
                 if (confirm('Tem certeza que deseja excluir este funcionário?')) {
                     $.ajax({
-                        url: `/produtos/${product}`, 
+                        url: `/produtos/${product}`,
                         method: 'DELETE',
                         data: {
                             _token: '{{ csrf_token() }}' // Incluindo o token CSRF
@@ -162,15 +173,15 @@
                         $('#editar-estoque').val(response.stock);
 
                         // Atualiza a URL do formulário para a rota correta
-                        $('#form-editar-funcionario').attr('action', `/produtos/edit/{product}`);
+                        $('#form-editar-product').attr('action', `/produtos/edit/{product}`);
 
                         // Exibe a modal de edição
-                        document.getElementById('modal-editar-funcionario').style.display =
+                        document.getElementById('modal-editar-product').style.display =
                             'flex';
                         document.getElementById('modal-overlay').style.display = 'block';
                     },
                     error: function(error) {
-                        alert('Erro ao buscar os dados do funcionário!');
+                        alert('Erro ao buscar os dados do produto!');
                         console.error(error);
                     }
                 });
@@ -178,18 +189,18 @@
 
             // Fechar a modal de edição
             function fecharModalEditar() {
-                document.getElementById('modal-editar-funcionario').style.display = 'none';
+                document.getElementById('modal-editar-product').style.display = 'none';
                 document.getElementById('modal-overlay').style.display = 'none';
             }
 
             function abrirModal() {
-                document.getElementById('modal-editar-funcionario').style.display = 'flex';
+                document.getElementById('modal-editar-product').style.display = 'flex';
                 document.getElementById('modal-overlay').style.display = 'block';
             }
 
             // Fechar a modal de edição ao clicar fora da modal (no overlay)
             window.onclick = function(event) {
-                const modal = document.getElementById('modal-editar-funcionario');
+                const modal = document.getElementById('modal-editar-product');
                 const overlay = document.getElementById('modal-overlay');
                 if (event.target === modal || event.target === overlay) {
                     fecharModalEditar();
@@ -198,7 +209,7 @@
 
 
             // Enviar o formulário de edição via AJAX
-            $('#form-editar-funcionario').on('submit', function(e) {
+            $('#form-editar-product').on('submit', function(e) {
                 e.preventDefault();
                 const formData = $(this).serialize(); // Coleta os dados do formulário
 
