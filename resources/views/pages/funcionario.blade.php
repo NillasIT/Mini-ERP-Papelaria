@@ -39,14 +39,18 @@
             const table = $('#tabela-funcionarios').DataTable({
                 dom: 'Bfrtip',
                 buttons: [{
-                    extend: 'pdfHtml5',
-                    text: 'Exportar PDF',
-                    title: 'Relatório de Funcionários',
-                    className: 'btn-export-pdf',
-                    exportOptions: {
-                        columns: [0, 1, 2, 3] // ignora a coluna de ações
+                        extend: 'pdfHtml5',
+                        text: 'Baixar PDF',
+                        title: 'Relatório de Produtos',
+                        className: 'btn-export-pdf'
+                    },
+                    {
+                        extend: 'excelHtml5',
+                        text: 'Baixar Excel',
+                        title: 'Relatório de Produtos',
+                        className: 'btn-export-pdf'
                     }
-                }],
+                ],
 
                 scrollX: true, // Adiciona rolagem horizontal
                 autoWidth: false, // Desativa ajuste automático de largura

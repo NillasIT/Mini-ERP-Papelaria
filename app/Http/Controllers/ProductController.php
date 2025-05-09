@@ -25,7 +25,7 @@ class ProductController extends Controller
         return view('pages.produtos', compact('products'));
     }
 
-    public function update(Request $request, Product $product) {
+    public function update(Request $request, $id) {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
@@ -34,13 +34,22 @@ class ProductController extends Controller
             'category' => 'required|string|max:255',
         ]);
 
-        $product->update($validated);
-        return redirect()->route('produtos.index')->with('success', 'Produto atualizado com sucesso!');
+        $produto = Product::findOrFail($id);
+        $produto->update($validated);
+
+        return response()->json(
+            ['message' => 'Funcionário atualizado com sucesso!']);
     }
 
-    public function destroy(Product $product) {
-        $product->delete();
-        return redirect()->route('produtos.index')->with('success', 'Produto excluído com sucesso!');
+    public function destroy($id) {
+        Product::destroy($id);
+        return response()->json(['mensagem' => 'Usuário excluido com sucesso']);
+    }
+
+    public function editProduct($id)
+    {
+        $produtos = Product::findOrFail($id);
+        return response()->json($produtos);
     }
 
     public function getProducts() {

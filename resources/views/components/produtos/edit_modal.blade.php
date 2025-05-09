@@ -3,22 +3,18 @@
         <span class="close" onclick="fecharModalEditar()">&times;</span>
 
         <div class="register-header">
-            <h2>Modificar dados do Produto</h2>
+            <h2>Modificar dados de Produto</h2>
         </div>
 
         <form id="form-editar-product" action="#" method="POST" class="register-form">
             @csrf
             @method('PUT')
             <div class="register-field">
-                <input type="text" name="name" class="register-input" placeholder="Nome"
-                    value="{{ old('name') }}" required>
-                <input type="text" name="description" class="register-input" placeholder="Descrição"
-                    value="{{ old('description') }}" required>
-                <input type="number" name="price" class="register-input" placeholder="Preço"
-                    value="{{ old('price') }}" required>
-                <input type="text" name="category" class="register-input" placeholder="Categoria"
-                    value="{{ old('category') }}" required>
-                <input type="number" name="stock" class="register-input" placeholder="Estoque" value="{{ old('stock') }}" required>
+                <input type="text" name="name" class="register-input" id="produto-nome" placeholder="Nome" value="{{ old('name') }}" required>
+                <input type="text" name="description" class="register-input" id="produto-description" placeholder="Descrição" value="{{ old('description') }}" required>
+                <input type="number" name="price" class="register-input" id="produto-price" placeholder="Preço" value="{{ old('price') }}" required>
+                <input type="text" name="category" class="register-input" id="produto-category" placeholder="Categoria" value="{{ old('category') }}" required>
+                <input type="number" name="stock" class="register-input" id="produto-stock" placeholder="Estoque" required>
             </div>
 
             <div class="register-submit">

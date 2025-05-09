@@ -1,11 +1,13 @@
 <div class="funcionario-content-body">
     <h1>Produtos</h1>
     <p class="info">Gerencie os produtos da Repografia</p>
-    <div class="funcionario-btn">
-        <a href="#" class="btn-add" onclick="abrirModal()">
-            <img src="{{ asset('assets/icons/add.png') }}" alt="">Adicionar
-        </a>
-    </div>
+    @if (auth()->user()->role === 'Administrador')
+        <div class="funcionario-btn">
+            <a href="#" class="btn-add" onclick="abrirModal()">
+                <img src="{{ asset('assets/icons/add.png') }}" alt="">Adicionar
+            </a>
+        </div>
+    @endif
 
     <div class="table-funcionarios">
         <table id="tabela-funcionarios" class="display nowrap" style="width:100%">
