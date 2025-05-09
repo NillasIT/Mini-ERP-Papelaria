@@ -2,7 +2,7 @@
     <h1>FSOCIETY</h1>
     <div class="container-info">
         @if (Auth::user()->role === 'Administrador')
-            <a href="{{ route('dashboard') }}" class="icon-info {{ request()->is('dashboard/admin') ?  'active' : '' }}">
+            <a href="{{ route('dashboard') }}" class="icon-info {{ request()->is('dashboard') ?  'active' : '' }}">
                 <img src="{{ asset('assets/icons/dashboard.png') }}" alt="dashboard">
                 Dashboard
             </a>

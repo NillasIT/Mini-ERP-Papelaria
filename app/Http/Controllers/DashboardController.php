@@ -12,6 +12,9 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        // Data atual
+        $hoje = Carbon::today();
+
         // Obter as últimas 6 vendas
         $ultimasVendas = Venda::with(['produto', 'user']) // Carrega relacionamento do produto e do usuário
             ->latest('created_at') // Ordena pelas vendas mais recentes
@@ -38,8 +41,8 @@ class DashboardController extends Controller
         }
 
         // Dados para passar à view
-        $numeroDeVendas = Venda::count();
-        $totalDeVendas = Venda::sum('total');
+        $numeroDeVendas = Venda::whereDate('created_at', $hoje)->count();
+        $totalDeVendas = Venda::whereDate('created_at', $hoje)->sum('total');
         $numeroDeFuncionarios = User::count();
         $produtosDisponiveis = Product::count();
 
