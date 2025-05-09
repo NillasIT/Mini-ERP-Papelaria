@@ -8,6 +8,11 @@ use App\Http\Controllers\VendaController;
 use App\Http\Controllers\DashboardController;
 
 // Rotas de Login
+
+Route::get('/', function () {
+    return redirect('/login/administrator');
+});
+
 Route::get('/login/administrator', [AuthController::class, 'showLogin'])->name('admin.login');
 Route::post('/login/admin', [AuthController::class, 'adminLogin'])->name('admin.login.post');
 
