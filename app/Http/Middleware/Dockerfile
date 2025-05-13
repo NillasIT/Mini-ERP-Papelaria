@@ -1,7 +1,7 @@
-# Use uma imagem base do PHP com suporte ao Apache
-FROM php:8.1-apache
+# Use uma imagem base com PHP 8.4.6 e Apache
+FROM php:8.4.6-apache
 
-# Instalar dependências necessárias
+# Atualizar o sistema e instalar dependências necessárias
 RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg-dev \
@@ -12,33 +12,31 @@ RUN apt-get update && apt-get install -y \
     unzip \
     curl \
     git \
-    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
-
-# Configurar o diretório de trabalho no contêiner
-WORKDIR /var/www/html
-
-# Copiar os arquivos do projeto para o contêiner
-COPY . /var/www/html
+    && docker-php-ext-install pdo_mysql pdo_pgsql mbstring exif pcntl bcmath gd
 
 # Instalar o Composer
 COPY --from=composer:2.5 /usr/bin/composer /usr/bin/composer
 
-# Definir permissões de pasta para o Laravel
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+# Configurar o diretório de trabalho do Laravel no contêiner
+WORKDIR /var/www/html
 
-# Instalar dependências PHP (Composer)
+# Copiar todos os arquivos do projeto para o contêiner
+COPY . .
+
+# Configurar permissões para as pastas de cache e armazenamento do Laravel
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+
+# Instalar as dependências do Laravel via Composer
 RUN composer install --no-dev --optimize-autoloader
 
-# Copiar o .env para configuração de produção
-COPY .env.example .env
+# Configurar o .env para produção
+RUN cp .env.example .env
 
 # Gerar a chave de aplicação do Laravel
 RUN php artisan key:generate
 
-# Configurar permissões de pasta para o Laravel
-RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
-
-# Expor a porta 80 (usada pelo Apache)
+# Expor a porta 80 para o servidor Apache
 EXPOSE 80
 
 # Comando para iniciar o servidor Apache
